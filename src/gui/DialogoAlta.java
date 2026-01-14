@@ -5,6 +5,7 @@
 package gui;
 import dto.Cliente;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -140,7 +141,14 @@ public class DialogoAlta extends javax.swing.JDialog {
         String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
 
         Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
-        pantallaPrincipal.anadirCliente(cliente);
+       
+        if(nombre.isEmpty() || apellidos.isEmpty()){
+            JOptionPane.showMessageDialog(this,"Aviso:No puede estar vacio los campos: nombre y apellidos.\nRellenalos!", 
+                    "Advertencia", 
+                    JOptionPane.WARNING_MESSAGE);
+        }else{
+            pantallaPrincipal.anadirCliente(cliente);
+        }
         
         dispose(); // cierra y libera recursos; mejor que setVisible(false)
     }//GEN-LAST:event_jButtonAltaActionPerformed
