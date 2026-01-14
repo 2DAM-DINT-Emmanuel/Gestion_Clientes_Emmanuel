@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package gui;
+import dto.Cliente;
 import java.util.Date;
 
 /**
@@ -138,6 +139,9 @@ public class DialogoAlta extends javax.swing.JDialog {
         Date fechaAlta = (Date)spinnerFechaAlta.getValue(); // cast desde Object
         String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
 
+        Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
+        pantallaPrincipal.anadirCliente(cliente);
+        
         dispose(); // cierra y libera recursos; mejor que setVisible(false)
     }//GEN-LAST:event_jButtonAltaActionPerformed
 

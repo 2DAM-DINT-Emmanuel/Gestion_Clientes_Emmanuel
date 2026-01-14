@@ -4,6 +4,9 @@
  */
 package gui;
 
+import dto.Cliente;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author emmnavmoj
@@ -17,6 +20,17 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     public PantallaPrincipal() {
         initComponents();
+        inicializarTabla(); // Siempre tiene que ir después de initComponents
+    }
+    
+    private void inicializarTabla() {
+        DefaultTableModel dtm = new DefaultTableModel();
+        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
+        clientes.setModel(dtm); // 'clientes' es la JTable del diseñador
+    }
+    public void anadirCliente(Cliente cliente) {
+        DefaultTableModel dtm = (DefaultTableModel) clientes.getModel();
+        dtm.addRow(cliente.toArrayString());
     }
 
     /**
@@ -89,7 +103,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // Generado al hacer doble clic en JMenuItem 'alta'
     private void altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaActionPerformed
         // TODO add your handling code here:
         DialogoAlta dialogoAlta = new DialogoAlta(this, true); // true = modal
