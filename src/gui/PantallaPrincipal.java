@@ -92,7 +92,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaActionPerformed
         // TODO add your handling code here:
-       
+        DialogoAlta dialogoAlta = new DialogoAlta(this, true); // true = modal
+        dialogoAlta.setVisible(true);
     }//GEN-LAST:event_altaActionPerformed
 
     /**
