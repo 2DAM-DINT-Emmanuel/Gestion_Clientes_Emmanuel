@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package gui;
+import java.util.Date;
 
 /**
  *
@@ -11,6 +12,7 @@ package gui;
 public class DialogoAlta extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogoAlta.class.getName());
+    private PantallaPrincipal pantallaPrincipal;
 
     /**
      * Creates new form DialogoAlta
@@ -18,6 +20,7 @@ public class DialogoAlta extends javax.swing.JDialog {
     public DialogoAlta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        pantallaPrincipal = (PantallaPrincipal) parent;
     }
 
     /**
@@ -55,6 +58,11 @@ public class DialogoAlta extends javax.swing.JDialog {
         jcbProvincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asturias", "Cantabria", "León" }));
 
         jButtonAlta.setText("Alta");
+        jButtonAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAltaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,6 +130,16 @@ public class DialogoAlta extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaActionPerformed
+        // TODO add your handling code here:
+        String nombre = jtfNombre.getText();
+        String apellidos = jtfApellidos.getText();
+        Date fechaAlta = (Date)spinnerFechaAlta.getValue(); // cast desde Object
+        String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
+
+        dispose(); // cierra y libera recursos; mejor que setVisible(false)
+    }//GEN-LAST:event_jButtonAltaActionPerformed
 
     /**
      * @param args the command line arguments
