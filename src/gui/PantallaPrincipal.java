@@ -5,6 +5,12 @@
 package gui;
 
 import dto.Cliente;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,6 +50,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         clientes = new javax.swing.JTable();
+        jButtonEliminar = new javax.swing.JButton();
+        jButtonCargar = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -64,6 +73,27 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(clientes);
+
+        jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
+
+        jButtonCargar.setText("Cargar");
+        jButtonCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCargarActionPerformed(evt);
+            }
+        });
+
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -91,14 +121,28 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 72, Short.MAX_VALUE)
+                        .addComponent(jButtonEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCargar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonGuardar)
+                        .addGap(63, 63, 63)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEliminar)
+                    .addComponent(jButtonCargar)
+                    .addComponent(jButtonGuardar))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
@@ -109,6 +153,88 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         DialogoAlta dialogoAlta = new DialogoAlta(this, true); // true = modal
         dialogoAlta.setVisible(true);
     }//GEN-LAST:event_altaActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // Obtenemos el modelo de la tabla
+        DefaultTableModel tabla = (DefaultTableModel) clientes.getModel();
+        
+        // Obtenemos el índice de la tabla seleccionada
+        int fila = clientes.getSelectedRow();
+
+        // Verificamos si hay fila seleccionada o no para evitar errores
+        if(fila != -1){
+            tabla.removeRow(fila);
+        }else{
+            JOptionPane.showMessageDialog(this,"Si quiere eliminar una fila de la tabla, primero tendras que seleccionar una!", 
+                     "Advertencia", 
+                     JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // tryCatch para capturar los posibles errores que puedan ocurrir
+        try{
+            // Obtenemos el modelo de la tabla
+            DefaultTableModel tabla = (DefaultTableModel) clientes.getModel();
+            
+            // Creamos el archivo clientes.dat que luego sera usado para guardatos los datos de la tabla
+            FileOutputStream archivo = new FileOutputStream("clientes.dat");
+            
+            // Creamos el objeto que traducira el código de java en binarios
+            ObjectOutputStream salida = new ObjectOutputStream(archivo);
+            
+            // Escribimos los vectores de la tabla en el archivo
+            salida.writeObject(tabla.getDataVector());
+            
+            // Cerramos la serializaciones
+            salida.close();
+            archivo.close();
+            
+            // Imprimimos un mensaje diciendo que la operación se ha realizado correctamente
+            JOptionPane.showMessageDialog(null, "Los datos han sido guardado correctamente");
+        }catch(Exception e){
+            // Imprimimos un mensaje comentando que ha habido un error a la de guardar
+             JOptionPane.showMessageDialog(this, "Ha surgido un error: " + e, 
+                     "Error", 
+                     JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCargarActionPerformed
+        // tryCatch para capturar los posibles errores que puedan ocurrir
+        try{
+            // Esto lo que hara es apuntar al archivo que guardamos
+            FileInputStream archivo = new FileInputStream("clientes.dat");
+            
+            // Esto lo hace es traducir los binarios a código java
+            ObjectInputStream entrada = new ObjectInputStream(archivo);
+            
+            // Leemos el objeto y le decimos a java que estamos seguros que esto es un vector
+            // Esto basicamente devuelve Object "genérico"
+            Vector datos = (Vector) entrada.readObject();
+            
+            // Obtenemos el modelo de la tabla
+            DefaultTableModel tabla = (DefaultTableModel) clientes.getModel();
+            
+            // Limpiamos la tabla antes de cargar para evitar la duplicación de datos
+            tabla.setRowCount(0);
+            
+            // Recorremos el vector principal
+            for(Object fila : datos){
+                // Añadimos las filas recuperadas a la tabla en nuestro modelo
+                tabla.addRow((Vector) fila);
+            }
+            
+            // Cerramos las serializaciones
+            entrada.close();
+            archivo.close();
+        }catch(Exception e){
+            // Imprimimos un mensaje comentando que ha habido un error a la de guardar
+             JOptionPane.showMessageDialog(this, "Ha surgido un error: " + e, 
+                     "Error", 
+                     JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonCargarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,6 +264,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem alta;
     private javax.swing.JTable clientes;
+    private javax.swing.JButton jButtonCargar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
