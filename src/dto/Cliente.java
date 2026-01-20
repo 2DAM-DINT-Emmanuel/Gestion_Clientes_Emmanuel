@@ -4,6 +4,7 @@
  */
 package dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,18 +12,20 @@ import java.util.Date;
  * @author emmnavmoj
  */
 public class Cliente {
+    // Atributos
     private String nombre;
     private String apellidos;
     private Date fechaAlta;
     private String provincia;
     
+    // Constructor
     public Cliente(String nombre, String apellidos, Date fechaAlta, String provincia) {
     this.nombre = nombre;
     this.apellidos = apellidos;
     this.fechaAlta = fechaAlta;
     this.provincia = provincia;
     }    
-
+ 
     // Getter y Setters
     public String getNombre() {
         return nombre;
@@ -51,6 +54,9 @@ public class Cliente {
     
     // toString para volcar el objeto en la tabla
     public String[] toArrayString() {
-        return new String[]{nombre, apellidos,fechaAlta.toString(),provincia};
+        // Definimos el formato dd/MM/yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaF = sdf.format(fechaAlta); // Formateamos la fecha
+        return new String[]{nombre, apellidos, fechaF, provincia};
     }    
 }

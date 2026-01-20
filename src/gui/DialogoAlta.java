@@ -12,12 +12,14 @@ import javax.swing.JOptionPane;
  * @author emmnavmoj
  */
 public class DialogoAlta extends javax.swing.JDialog {
-    
+    // Atributos
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogoAlta.class.getName());
-    private PantallaPrincipal pantallaPrincipal;
+    private final PantallaPrincipal pantallaPrincipal;
 
     /**
      * Creates new form DialogoAlta
+     * @param parent
+     * @param modal
      */
     public DialogoAlta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -138,17 +140,21 @@ public class DialogoAlta extends javax.swing.JDialog {
         String apellidos = jtfApellidos.getText();
         Date fechaAlta = (Date)spinnerFechaAlta.getValue(); // cast desde Object
         String provincia = (String) jcbProvincia.getSelectedItem(); // cast desde Object
-
-        Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
        
         if(nombre.isEmpty() || apellidos.isEmpty()){
             JOptionPane.showMessageDialog(this,"Aviso:No puede estar vacio los campos: nombre y apellidos.\nRellenalos!", 
                     "Advertencia", 
                     JOptionPane.WARNING_MESSAGE);
         }else{
+            // Creamos el objeto Cliente
+            Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
+            
+            // Enviamos cliente a la pantalla principal
             pantallaPrincipal.anadirCliente(cliente);
+            
+            // Cerramos ventana
+            dispose();
         }
-        
         dispose(); // cierra y libera recursos; mejor que setVisible(false)
     }//GEN-LAST:event_jButtonAltaActionPerformed
 

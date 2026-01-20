@@ -20,9 +20,11 @@ import javax.swing.table.DefaultTableModel;
  * @author emmnavmoj
  */
 public class PantallaPrincipal extends javax.swing.JFrame {
-    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName());
-
+    
+    // Declaramos el sorter como variable de clase
+    private javax.swing.table.TableRowSorter<DefaultTableModel> sorter;
+    
     /**
      * Creates new form PantallaPrincipal
      */
@@ -35,6 +37,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
         clientes.setModel(dtm); // 'clientes' es la JTable del diseñador
+        
+        // Inicializamos un sorter con el modelo de la tabla
+        sorter = new javax.swing.table.TableRowSorter<>(dtm);
+        clientes.setRowSorter(sorter); // Vinculamos el sorter a clientes
     }
     public void anadirCliente(Cliente cliente) {
         DefaultTableModel dtm = (DefaultTableModel) clientes.getModel();
@@ -55,6 +61,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jButtonEliminar = new javax.swing.JButton();
         jButtonCargar = new javax.swing.JButton();
         jButtonGuardar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jtfBusqueda = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         alta = new javax.swing.JMenuItem();
@@ -96,6 +104,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Filtra:");
+
+        jtfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfBusquedaKeyReleased(evt);
+            }
+        });
+
         jMenu3.setText("Clientes");
 
         alta.setText("Alta...");
@@ -115,29 +131,41 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 72, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
                         .addComponent(jButtonEliminar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonCargar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGuardar)
-                        .addGap(63, 63, 63)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(149, 149, 149))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEliminar)
                     .addComponent(jButtonCargar)
                     .addComponent(jButtonGuardar))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -231,6 +259,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonCargarActionPerformed
 
+    private void jtfBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBusquedaKeyReleased
+        // TODO add your handling code here:
+        String texto = jtfBusqueda.getText();
+        
+        if(texto.trim().length() == 0){
+            // Si el campo esta vacio, quitamos el campo
+            sorter.setRowFilter(null);
+        }else{
+            // Aplicamos un filtro que ignore mayúsculas/minúsculas (?i) en la columna 0 (Nombre)
+            sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + texto, 0));   
+        }
+    }//GEN-LAST:event_jtfBusquedaKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -262,8 +303,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCargar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jtfBusqueda;
     // End of variables declaration//GEN-END:variables
 }
