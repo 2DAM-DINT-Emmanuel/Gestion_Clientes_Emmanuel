@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,7 +33,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     
     private void inicializarTabla() {
         DefaultTableModel dtm = new DefaultTableModel();
-        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
+        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia", "Email", "Telefono"});
         clientes.setModel(dtm); // 'clientes' es la JTable del diseñador
         
         // Inicializamos un sorter con el modelo de la tabla

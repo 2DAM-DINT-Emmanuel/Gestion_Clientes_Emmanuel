@@ -15,15 +15,19 @@ public class Cliente {
     // Atributos
     private String nombre;
     private String apellidos;
+    private String email;
+    private String telefono;
     private Date fechaAlta;
     private String provincia;
     
     // Constructor
-    public Cliente(String nombre, String apellidos, Date fechaAlta, String provincia) {
-    this.nombre = nombre;
-    this.apellidos = apellidos;
-    this.fechaAlta = fechaAlta;
-    this.provincia = provincia;
+    public Cliente(String nombre, String apellidos, Date fechaAlta, String provincia, String email, String telefono) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.telefono = telefono;
+        this.fechaAlta = fechaAlta;
+        this.provincia = provincia;
     }    
  
     // Getter y Setters
@@ -35,6 +39,18 @@ public class Cliente {
     }
     public String getApellidos() {
         return apellidos;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getTelefono() {
+        return telefono;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
@@ -57,6 +73,6 @@ public class Cliente {
         // Definimos el formato dd/MM/yyyy
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String fechaF = sdf.format(fechaAlta); // Formateamos la fecha
-        return new String[]{nombre, apellidos, fechaF, provincia};
+        return new String[]{nombre, apellidos, fechaF, provincia, email, telefono};
     }    
 }
