@@ -65,6 +65,7 @@ public class DialogoAlta extends javax.swing.JDialog {
 
         jcbProvincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asturias", "Cantabria", "León" }));
 
+        jButtonAlta.setBackground(new java.awt.Color(102, 102, 255));
         jButtonAlta.setText("Alta");
         jButtonAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

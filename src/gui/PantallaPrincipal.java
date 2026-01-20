@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,6 +30,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public PantallaPrincipal() {
         initComponents();
         inicializarTabla(); // Siempre tiene que ir después de initComponents
+        setIconImage(new ImageIcon(getClass().getResource("icono.jpg")).getImage());
     }
     
     private void inicializarTabla() {
@@ -81,6 +83,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(clientes);
 
+        jButtonEliminar.setBackground(new java.awt.Color(255, 51, 51));
         jButtonEliminar.setText("Eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,6 +91,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButtonCargar.setBackground(new java.awt.Color(153, 255, 255));
         jButtonCargar.setText("Cargar");
         jButtonCargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +99,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButtonGuardar.setBackground(new java.awt.Color(51, 255, 0));
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
